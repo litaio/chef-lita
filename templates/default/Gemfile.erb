@@ -1,0 +1,17 @@
+source "https://rubygems.org"
+
+gem "lita"
+
+<% if node['lita']['adapter'] != :shell -%>
+gem "lita-<%= node['lita']['adapter'] %>"<% if node['lita']['adapter_version'] -%>, "<%= node['lita']['adapter_version'] %>"<% end -%>
+<% end -%>
+
+<% node['lita']['plugins'].each do |plugin| -%>
+<% if plugin.is_a?(Hash) -%>
+<% plugin.each do |name,ver| -%>
+gem "lita-<%= name %>", "<%= ver %>"
+<% end -%>
+<% else -%>
+gem "lita-<%= plugin %>"
+<% end -%>
+<% end -%>

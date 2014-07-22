@@ -1,0 +1,67 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          lita
+# Required-Start:    $local_fs $remote_fs $network
+# Required-Stop:     $local_fs $remote_fs $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Lita chat bot
+### END INIT INFO
+
+# Files and directories
+DAEMON_USER=<%= node["lita"]["daemon_user"] %>
+HOME_DIR=<%= node["lita"]["install_dir"] %>
+CMD_FILE=<%= node["lita"]["install_dir"] %>/bin/lita
+LOG_FILE=<%= node["lita"]["log_dir"] %>/lita.log
+PID_FILE=<%= node["lita"]["run_dir"] %>/lita.pid
+CMD_PREFIX="bundle exec"
+CMD_SUFFIX="--daemonize --log-file $LOG_FILE --pid-file $PID_FILE"
+
+pid() {
+  pid=""
+  if [ -f $PID_FILE ]; then
+    pid=$(cat $PID_FILE)
+  else
+    pid=$(pgrep -u $DAEMON_USER -f $CMD_FILE)
+  fi
+  echo "$pid"
+}
+
+start() {
+  sudo -u $DAEMON_USER bash -c "export HOME=$HOME_DIR; cd $HOME_DIR; $CMD_PREFIX $CMD_FILE $CMD_SUFFIX > /dev/null 2>&1"
+  echo "* lita is started"
+}
+
+stop() {
+  kill $(pid) > /dev/null 2>&1
+  rm -f $PID_FILE
+  echo "* lita is stopped"
+}
+
+status() {
+  ps --pid $(pid) > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    echo "* lita is running"
+  else
+    echo "* lita is not running"
+  fi
+}
+
+case "$1" in
+  start)
+    start
+  ;;
+  stop)
+    stop
+  ;;
+  restart)
+    stop
+    start
+  ;;
+  status)
+    status
+  ;;
+  *)
+  ;;
+esac

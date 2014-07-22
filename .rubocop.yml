@@ -1,0 +1,31 @@
+AllCops:
+  Exclude:
+    - metadata.rb
+    - vendor/**
+
+AlignParameters:
+  Enabled: false
+
+Encoding:
+  Enabled: false
+
+HashSyntax:
+  Enabled: false
+
+LineLength:
+  Enabled: false
+
+MethodLength:
+  Max: 30
+
+StringLiterals:
+  Enabled: false
+
+TrailingBlankLines:
+  Enabled: false
+
+TrailingWhitespace:
+  Enabled: false
+
+NumericLiterals:
+  Enabled: false
