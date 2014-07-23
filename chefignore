@@ -46,3 +46,6 @@ features/*
 # Berkshelf
 Berksfile
 Berksfile.lock
+
+# README.md preview
+README.html
