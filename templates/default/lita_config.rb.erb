@@ -1,17 +1,17 @@
 Lita.configure do |config|
   config.robot.name = "<%= node['lita']['name'] %>"
-  config.robot.locale = :<%= node['lita']['locale'] %>
-  config.robot.log_level = :<%= node['lita']['log_level'] %>
+  config.robot.locale = <%= string_or_symbol(node['lita']['locale']) %>
+  config.robot.log_level = <%= string_or_symbol(node['lita']['log_level']) %>
   config.robot.admins = ["<%= node['lita']['admin'].join('","') %>"]
-  config.robot.adapter = :<%= node['lita']['adapter'].to_sym %>
+  config.robot.adapter = <%= string_or_symbol(node['lita']['adapter']) %>
 <% node['lita']['adapter_config'].each do |k,v| -%>
-  config.adapter.<%= k %> = "<%= v %>"
+  config.adapter.<%= k %> = <%= string_or_symbol(v) %>
 <% end -%>
   config.redis.host = "<%= node['lita']['redis_host'] %>"
   config.redis.port = <%= node['lita']['redis_port'] %>
 <% node['lita']['plugin_config'].each do |plugin,config| -%>
 <% node['lita']['plugin_config'][plugin].each do |k,v| -%>
-  config.handlers.<%= plugin %>.<%= k %> = "<%= v %>"
+  config.handlers.<%= plugin %>.<%= k %> = <%= string_or_symbol(v) %>
 <% end -%>
 <% end -%>
 end

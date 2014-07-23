@@ -8,7 +8,7 @@ Installs and configures the [lita](https://www.lita.io/) chatbot.
  * 12.04 (precise)
  * 14.04 (precise)
 
-Probably works on other Ubuntu version
+It will likely work on other Ubuntu versions, however the automatic methods of installing ruby and redis will have issues.
 
 ## Tunable Attributes
 
@@ -17,15 +17,16 @@ All tunable attributes are in the `lita` heirarchy.
 Key | Type | Description | Default
 :---|:---|:---|:---
 `name` | String  | Name of chatbot | Lita Chatbot
+`version` | String  | Gemfile-style version dependency of lita to install | nil (latest)
 `config_coookbook` | String  | Name of cookbook where config template stored | lita (current)
 `config_template` | String  | Name of config template file | lita (current)
-`locale` | Symbol  | Language to use | :en
-`log_level` | Symbol  | Locale | :en
+`locale` | String/Symbol  | Language to use | ":en"
+`log_level` | String/Symbol  | Locale | ":info"
 `admin` | Array of Strings  | Adapter specific IDs of Lita admins | empty
-`adapter` | Symbol  | Adapter to use for Lita instance | :shell
+`adapter` | String/Symbol  | Adapter to use for Lita instance | ":shell"
 `adapter_version` | Fixed  | Version of adapter to use | nil (latest)
 `adapter_config` | Hash  | Hash of adapter specific configuration | emtpy
-`plugins` | Array of String and/or Hashes  | List of plugins to install and, optionally, versions of plugin to install | empty
+`plugins` | Array of String and/or Hashes  | List of plugins to install and, optionally, Gemfile-style version dependency | empty
 `plugin_config` | Hash of Hashes  | Hash of plugin specific configuration | empty
 `redis_host` | String  | IP address of redis instance | 127.0.01
 `redis_port` | Numeric  | Port of redis instance | 6379
@@ -35,6 +36,21 @@ Key | Type | Description | Default
 `daemon_user` | String  | User to run daemon as | nobody
 `ruby_install_type` | String  | How to install ruby depedency | auto
 `redis_install_type` | String  | How to install redis depedency | auto
+
+### Important Note
+
+Many of the configuration elements (particularly in adapter or plugins) require symbols instead of strings. Since:
+
+* The cookbook is using Chef templates (ERB) to generate more ruby AND
+* ERB calls to_s on variables in the template
+
+you'll need to put your items that should be symbols in as strings For example:
+
+```ruby
+default["lita"]["adapter"] = ":shell"
+```
+
+For the adapter and plugin config the template will try to detect strings that begin with ```:``` and not quote them in the ```lita_config.rb```.
 
 ## Usage
 
@@ -57,7 +73,7 @@ The adapter config is simply key/value pairs. If you need more complicated ruby 
 Plugins can be listed in an arry or, optionally listed as an array of hashes using plugin name as the key and Gemfile dependency syntax:
 
 ```ruby
- default["lita"]["plugins"] = [
+default["lita"]["plugins"] = [
   "ping",
   { "jenkins" => ">= 0.0.1" }
 ]
@@ -65,16 +81,77 @@ Plugins can be listed in an arry or, optionally listed as an array of hashes usi
 
 ### Plugin Configuration
 
-The plugins can be configured with a hashe of hashes that are keyed off the plugin name:
+The plugins can be configured with a hash of hashes that are keyed off the plugin name:
 
 ```ruby
 default["lita"]["plugin_config"] = {
   "jenkins" => {
     "url" => "http://test.com"
-    "auth" => ""user1:sekret""
+    "auth" => "user1:sekret"
   }
 }
 ```
+
+### Ruby and Redis
+
+Lita [requires recent versions](http://docs.lita.io/getting-started/installation/) of Ruby and Redis. By default, the ```lita``` cookbook will automatically try to find appropriate ruyb and redis versions for your platform and version.
+
+To install those dependencies yourself, simple set the install type attributes to ```none``` as such:
+
+```
+node.default["lita"]["ruby_install_type"] = "none"
+node.default["lita"]["redit_install_type"] = "none"
+```
+
+If these versions don't work for you (or the cookbook doesn't currently support your platform/version), you can manage the installation of ruby and redis yourself through various methods:
+
+* Add ruby and redis using community cookbooks in your node/role run_list
+* Creating a wrapper cookbook that does the same
+* Using a base image that already includes the dependencies
+
+The only requirement for the ```lita``` cookbook is that ```ruby```, ```gem``` and ```bundler``` are in the system path and provide the appropriate versions to work with lita.
+
+## Example
+
+Here's an example node configuration for leveraging ```lita-hipchat```:
+
+```
+{
+  "lita": {
+    "adapter": "hipchat",
+    "adapter_config": {
+      "jid": "99999_0000000@chat.hipchat.com",
+      "password": "sekret1",
+      "rooms": ":all",
+      "muc_domain": "conf.hipchat.com"
+    }
+  },
+    "plugins": [
+      "jenkins",
+      "pagerduty",
+      "cron",
+      "dig",
+      "youtube",
+      "xkcd",
+      "jenkins",
+      "wikipedia"
+    ],
+    "plugin_config": {
+      "jenkins": {
+        "url": "http://jenkins.notreally.com/",
+        "auth": "lita:sekret1"
+      },
+      "pagerduty": {
+        "api_key": "kkkkkkkkkkkkkkkkkkkkkk",
+        "subdomain": "notreally"
+      }
+    }
+}
+```
+
+# TODO
+
+* Remove Pagerduty Hack - The ```lita-pagerduty``` plugin depends on the gem ```pagerduty-sdk```. The current version of ```pagerduty-sdk``` on rubygems.org has a bad dependency listed in it. (It references ```activesupport``` as ```active_support```.) However, it has been fixed in Github since Feb 25, but not released. [More info](https://github.com/kryptek/pagerduty-sdk/pull/2). As such, the Gemfile will detect if ```pagerduty``` is in the plugin list and pull the ```pagerduty-sdk``` directly from Github instead of rubygems.org.
 
 ## License and Authors
 

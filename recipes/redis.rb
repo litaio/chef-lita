@@ -3,7 +3,7 @@
 # Cookbook Name:: lita
 # Recipe:: redis
 #
-# Installs and configures lita
+# Installs and configures redis for lita
 #
 # Copyright 2014, Harlan Barnes
 #

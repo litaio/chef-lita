@@ -15,8 +15,7 @@ HOME_DIR=<%= node["lita"]["install_dir"] %>
 CMD_FILE=<%= node["lita"]["install_dir"] %>/bin/lita
 LOG_FILE=<%= node["lita"]["log_dir"] %>/lita.log
 PID_FILE=<%= node["lita"]["run_dir"] %>/lita.pid
-CMD_PREFIX="bundle exec"
-CMD_SUFFIX="--daemonize --log-file $LOG_FILE --pid-file $PID_FILE"
+CMD_OPTS="--daemonize --log-file $LOG_FILE --pid-file $PID_FILE"
 
 pid() {
   pid=""
@@ -29,7 +28,7 @@ pid() {
 }
 
 start() {
-  sudo -u $DAEMON_USER bash -c "export HOME=$HOME_DIR; cd $HOME_DIR; $CMD_PREFIX $CMD_FILE $CMD_SUFFIX > /dev/null 2>&1"
+  sudo -u $DAEMON_USER bash -c "export HOME=$HOME_DIR; cd $HOME_DIR; $CMD_FILE $CMD_OPTS > /dev/null 2>&1"
   echo "* lita is started"
 }
 

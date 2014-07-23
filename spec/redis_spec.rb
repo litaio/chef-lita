@@ -16,4 +16,9 @@ describe 'lita::redis' do
     expect(chef_run).to include_recipe('redis2::default')
   end
 
+  # it's not clear to me how this is leaking into the stuff chefspec tests
+  it 'enable the redis_prime service' do
+    expect(chef_run).not_to enable_service('redis_prime')
+  end
+
 end

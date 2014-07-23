@@ -1,3 +1,6 @@
 .vagrant
 .kitchen/
 .kitchen.local.yml
+README.html
+Gemfile.lock
+Berksfile.lock

@@ -1,17 +1,21 @@
 source "https://rubygems.org"
 
-gem "lita"
+gem "lita"<% if node['lita']['version'] -%>, "<%= node['lita']['version'] %>"<% end -%>
 
-<% if node['lita']['adapter'] != :shell -%>
-gem "lita-<%= node['lita']['adapter'] %>"<% if node['lita']['adapter_version'] -%>, "<%= node['lita']['adapter_version'] %>"<% end -%>
+<% if node['lita']['adapter'] != ":shell" -%>
+gem "lita-<%= stringify(node['lita']['adapter']) %>"<% if node['lita']['adapter_version'] -%>, "<%= node['lita']['adapter_version'] %>"<% end -%>
 <% end -%>
 
 <% node['lita']['plugins'].each do |plugin| -%>
 <% if plugin.is_a?(Hash) -%>
-<% plugin.each do |name,ver| -%>
-gem "lita-<%= name %>", "<%= ver %>"
+<% if plugin.keys.first == "pagerduty" %>
+gem "pagerduty-sdk", :git => "https://github.com/kryptek/pagerduty-sdk.git"
 <% end -%>
+gem "lita-<%= plugin.keys.first %>", "<%= plugin[plugin.keys.first] %>"
 <% else -%>
+<% if plugin == "pagerduty" %>
+gem "pagerduty-sdk", :git => "https://github.com/kryptek/pagerduty-sdk.git"
+<% end -%>
 gem "lita-<%= plugin %>"
 <% end -%>
 <% end -%>

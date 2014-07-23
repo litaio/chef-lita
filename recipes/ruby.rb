@@ -1,9 +1,9 @@
 #
 # Author:: Harlan Barnes (<hbarnes@pobox.com>)
 # Cookbook Name:: lita
-# Recipe:: rubyg
+# Recipe:: ruby
 #
-# Installs and configures lita
+# Installs and configures ruby for lita
 #
 # Copyright 2014, Harlan Barnes
 #
