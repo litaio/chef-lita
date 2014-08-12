@@ -25,32 +25,26 @@ include_recipe "build-essential::default"
 include_recipe "lita::ruby"
 include_recipe "lita::redis"
 
-# many of the rubygems need openssl
-%w(openssl libssl-dev ca-certificates).each do |pkg|
+# things the rubygems / adapters / handlers might need
+node["lita"]["packages"].each do |pkg|
   package pkg
 end
 
-directory node['lita']['install_dir'] do
+directory node["lita"]["install_dir"] do
   mode "0755"
   action :create
 end
 
 %w( log_dir run_dir ).each do |dir|
-  directory node['lita'][dir] do
-    owner node['lita']['daemon_user']
-    group node['lita']['daemon_user']
+  directory node["lita"][dir] do
+    owner node["lita"]["daemon_user"]
+    group node["lita"]["daemon_user"]
     mode "0755"
     action :create
   end
 end
 
-# TODO: Remove the hack in Gemfile.erb for pagerduty-sdk
-# lita-pagerduty plugin depends on pagerduty-sdk and it has a borked dep that
-# on rubygems.org; however, the fix is in Github since Feb 25 but not released:
-# https://github.com/kryptek/pagerduty-sdk/pull/2
-# Also note that we have to skip the lita-pagerduty gem in Gemfile to get thi
-# to work correctly.
-template "#{node['lita']['install_dir']}/Gemfile" do
+template "#{node["lita"]["install_dir"]}/Gemfile" do
   notifies :delete, "file[Gemfile.lock]", :immediately
   notifies :run, "execute[bundle-install-lita]", :immediately
   helpers do
@@ -66,19 +60,19 @@ end
 
 file "Gemfile.lock" do
   action :nothing
-  path "#{node['lita']['install_dir']}/Gemfile.lock"
+  path "#{node["lita"]["install_dir"]}/Gemfile.lock"
 end
 
 execute "bundle-install-lita" do
   action :nothing
   command "bundle install --path vendor/ --binstubs bin"
-  cwd node['lita']['install_dir']
+  cwd node["lita"]["install_dir"]
   notifies :restart, "service[lita]"
 end
 
-template "#{node['lita']['install_dir']}/lita_config.rb" do
-  cookbook node['lita']['config_cookbook']
-  source node['lita']['config_template']
+template "#{node["lita"]["install_dir"]}/lita_config.rb" do
+  cookbook node["lita"]["config_cookbook"]
+  source node["lita"]["config_template"]
   notifies :restart, "service[lita]"
   helpers do
     def string_or_symbol(attrib)

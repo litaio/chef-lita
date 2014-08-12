@@ -1,5 +1,6 @@
 Lita.configure do |config|
   config.robot.name = "<%= node['lita']['name'] %>"
+  config.robot.mention_name = "<%= node['lita']['mention_name'] %>"
   config.robot.locale = <%= string_or_symbol(node['lita']['locale']) %>
   config.robot.log_level = <%= string_or_symbol(node['lita']['log_level']) %>
   config.robot.admins = ["<%= node['lita']['admin'].join('","') %>"]
@@ -9,6 +10,10 @@ Lita.configure do |config|
 <% end -%>
   config.redis.host = "<%= node['lita']['redis_host'] %>"
   config.redis.port = <%= node['lita']['redis_port'] %>
+  config.http.host = "<%= node['lita']['http_host'] %>"
+  config.http.port = <%= node['lita']['http_port'] %>
+  config.http.min_threads = <%= node['lita']['http_min_threads'] %>
+  config.http.max_threads = <%= node['lita']['http_max_threads'] %>
 <% node['lita']['plugin_config'].each do |plugin,config| -%>
 <% node['lita']['plugin_config'][plugin].each do |k,v| -%>
   config.handlers.<%= plugin %>.<%= k %> = <%= string_or_symbol(v) %>

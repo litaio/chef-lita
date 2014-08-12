@@ -17,18 +17,25 @@ All tunable attributes are in the `lita` heirarchy.
 Key | Type | Description | Default
 :---|:---|:---|:---
 `name` | String  | Name of chatbot | Lita Chatbot
+`mention_name` | String | Name chatbot listens for | Value of `name`
 `version` | String  | Gemfile-style version dependency of lita to install | nil (latest)
 `config_coookbook` | String  | Name of cookbook where config template stored | lita (current)
-`config_template` | String  | Name of config template file | lita (current)
+`config_template` | String  | Name of config template file | lita_config.rb.erb
 `locale` | String/Symbol  | Language to use | ":en"
 `log_level` | String/Symbol  | Locale | ":info"
 `admin` | Array of Strings  | Adapter specific IDs of Lita admins | empty
 `adapter` | String/Symbol  | Adapter to use for Lita instance | ":shell"
 `adapter_version` | Fixed  | Version of adapter to use | nil (latest)
 `adapter_config` | Hash  | Hash of adapter specific configuration | emtpy
-`plugins` | Array of String and/or Hashes  | List of plugins to install and, optionally, Gemfile-style version dependency | empty
+`plugins` | Array of Strings and/or Hashes  | List of plugins to install and, optionally, Gemfile line options | empty
 `plugin_config` | Hash of Hashes  | Hash of plugin specific configuration | empty
-`redis_host` | String  | IP address of redis instance | 127.0.01
+`gems` | Array of Strings and/or Hashes  | List of gems to install and, optionally, Gemfile line options | empty
+`packages` | Array of Strings | List of system packages to install | SSL related stuff
+`http_host` | String  | IP address to bind http server | 0.0.0.0
+`http_port` | Numeric  | Port to bind http server | 8080
+`http_min_threads` | Numeric  | Min number of http threads | 0
+`http_max_threads` | Numeric  | Max number of http threads | 0
+`redis_host` | String  | IP address of redis instance | 127.0.0.1
 `redis_port` | Numeric  | Port of redis instance | 6379
 `install_dir` | String  | Lita home directory | /opt/lita
 `log_dir` | String  | Lita log directory | /opt/lita/logs
@@ -43,6 +50,7 @@ Many of the configuration elements (particularly in adapter or plugins) require 
 
 * The cookbook is using Chef templates (ERB) to generate more ruby AND
 * ERB calls to_s on variables in the template
+* Even if I try to do var.inspect on the ERB variable, I can't handle those who pass their attributes via JSON (i.e. environment, role, or node)
 
 you'll need to put your items that should be symbols in as strings For example:
 
@@ -70,12 +78,13 @@ The adapter config is simply key/value pairs. If you need more complicated ruby 
 
 ### Plugins
 
-Plugins can be listed in an arry or, optionally listed as an array of hashes using plugin name as the key and Gemfile dependency syntax:
+Plugins can be listed in an array or, optionally listed as an array of hashes using plugin name as the key and Gemfile line syntax:
 
 ```ruby
 default["lita"]["plugins"] = [
   "ping",
   { "jenkins" => ">= 0.0.1" }
+  { "foo" => ">= 1.2.3, :git => 'git://github.com/foo/foo.git'" }
 ]
 ```
 
@@ -98,7 +107,7 @@ Lita [requires recent versions](http://docs.lita.io/getting-started/installation
 
 To install those dependencies yourself, simple set the install type attributes to ```none``` as such:
 
-```
+```ruby
 node.default["lita"]["ruby_install_type"] = "none"
 node.default["lita"]["redit_install_type"] = "none"
 ```
@@ -115,7 +124,7 @@ The only requirement for the ```lita``` cookbook is that ```ruby```, ```gem``` a
 
 Here's an example node configuration for leveraging ```lita-hipchat```:
 
-```
+```json
 {
   "lita": {
     "adapter": "hipchat",
@@ -124,8 +133,10 @@ Here's an example node configuration for leveraging ```lita-hipchat```:
       "password": "sekret1",
       "rooms": ":all",
       "muc_domain": "conf.hipchat.com"
-    }
-  },
+    },
+    "gems": {
+      "pagerduty-sdk", ":git => \"https://github.com/kryptek/pagerduty-sdk.git\""
+    },
     "plugins": [
       "jenkins",
       "pagerduty",
@@ -148,10 +159,6 @@ Here's an example node configuration for leveraging ```lita-hipchat```:
     }
 }
 ```
-
-# TODO
-
-* Remove Pagerduty Hack - The ```lita-pagerduty``` plugin depends on the gem ```pagerduty-sdk```. The current version of ```pagerduty-sdk``` on rubygems.org has a bad dependency listed in it. (It references ```activesupport``` as ```active_support```.) However, it has been fixed in Github since Feb 25, but not released. [More info](https://github.com/kryptek/pagerduty-sdk/pull/2). As such, the Gemfile will detect if ```pagerduty``` is in the plugin list and pull the ```pagerduty-sdk``` directly from Github instead of rubygems.org.
 
 ## License and Authors
 

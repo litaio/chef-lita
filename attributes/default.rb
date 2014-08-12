@@ -3,6 +3,13 @@
 # The name your robot will use.
 default["lita"]["name"] = "Lita Chatbot"
 
+# The name Lita will look for in messages to determine if the message is being
+# addressed to it. Usually this is the same as the display name, but in some
+# cases it may not be. For example, in HipChat, display names are required to
+# be a first and last name, such as "Lita Bot", whereas the mention system
+# would use a name like "LitaBot".
+default["lita"]["mention_name"] = node["lita"]["name"]
+
 # The cookbook to find the config template (allows for wrapper cookbooks to
 # override with custom template for more complex configurations)
 default["lita"]["config_cookbook"] = "lita"
@@ -25,22 +32,26 @@ default["lita"]["admin"] = []
 # found here: https://www.lita.io/plugins
 default["lita"]["adapter"] = ":shell"
 
-# The adatpter version to install (using Gemfile format); nil for latest
+# The adapter version to install (using Gemfile format); nil for latest
 default["lita"]["adapter_version"] = nil
 
 # Configuration specific to adapter above:
 default["lita"]["adapter_config"] = {}
 
-# Array plugins OR hashes of plugins and versions (in Gemfile format) to install
+# Array of plugin to install OR hashes of plugins and Gemfile formatted line
 # Example:
 #
 # default["lita"]["plugins"] = [
 #  "ping",
 #  { "jenkins" => ">= 0.0.1" }
+#  { "foo" => ">= 1.2.3, :git => 'git://github.com/foo/foo.git'" }
 # ]
 #
-#
 default["lita"]["plugins"] = []
+
+# Array of extra gems to install OR hashes of gems and Gemfile formatted line
+# See above for example.
+default["lita"]["gems"] = []
 
 # Configuration specific to plugin list above. Example:
 #
@@ -53,9 +64,23 @@ default["lita"]["plugins"] = []
 #
 default["lita"]["plugin_config"] = {}
 
+# helpful for adding native libs needed by adapters / handlers
+default["lita"]["packages"] = %w(
+  openssl
+  libssl-dev
+  ca-certificates
+  libcurl4-gnutls-dev
+)
+
 # Set options for redis connection
 default["lita"]["redis_host"] = "127.0.0.1"
 default["lita"]["redis_port"] = 6379
+
+# Set options for http server
+default["lita"]["http_host"]        = "0.0.0.0"
+default["lita"]["http_port"]        = 8080
+default["lita"]["http_min_threads"] = 0
+default["lita"]["http_max_threads"] = 16
 
 # directories, files, etc.
 default["lita"]["install_dir"] = "/opt/lita"

@@ -13,3 +13,16 @@ suites:
   - name: default
     run_list:
       - recipe[lita::default]
+    attributes:
+      lita:
+        packages:
+          - git
+        plugins:
+          - google-images
+          - pagerduty
+          - jira: ':git => "git://github.com/harlanbarnes/lita-jira.git"'
+        plugin_config:
+          google_images:
+            safe_search: "off"
+        gems:
+          - pagerduty-sdk: ':git => "https://github.com/kryptek/pagerduty-sdk.git"'

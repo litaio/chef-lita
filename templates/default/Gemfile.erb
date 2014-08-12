@@ -8,14 +8,16 @@ gem "lita-<%= stringify(node['lita']['adapter']) %>"<% if node['lita']['adapter_
 
 <% node['lita']['plugins'].each do |plugin| -%>
 <% if plugin.is_a?(Hash) -%>
-<% if plugin.keys.first == "pagerduty" %>
-gem "pagerduty-sdk", :git => "https://github.com/kryptek/pagerduty-sdk.git"
-<% end -%>
-gem "lita-<%= plugin.keys.first %>", "<%= plugin[plugin.keys.first] %>"
+gem "lita-<%= plugin.keys.first %>", <%= plugin[plugin.keys.first] %>
 <% else -%>
-<% if plugin == "pagerduty" %>
-gem "pagerduty-sdk", :git => "https://github.com/kryptek/pagerduty-sdk.git"
-<% end -%>
 gem "lita-<%= plugin %>"
+<% end -%>
+<% end -%>
+
+<% node['lita']['gems'].each do |gem| -%>
+<% if gem.is_a?(Hash) -%>
+gem "<%= gem.keys.first %>", <%= gem[gem.keys.first] %>
+<% else -%>
+gem "<%= gem %>"
 <% end -%>
 <% end -%>

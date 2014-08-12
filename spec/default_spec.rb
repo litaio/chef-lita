@@ -9,6 +9,7 @@ describe 'lita::default' do
       node.automatic['platform_family']  = 'debian'
       node.automatic['lsb']['codename']  = 'precise'
       node.automatic['memory']['total']  = 2048
+      node.set['lita']['packages']   = ['openssl']
     end.converge(described_recipe)
   end
 
@@ -18,6 +19,10 @@ describe 'lita::default' do
 
   it 'includes the default recipe from the build-essential cookbook' do
     expect(chef_run).to include_recipe('build-essential::default')
+  end
+
+  it 'installs packages in the lita packages attribute' do
+    expect(chef_run).to install_package('openssl')
   end
 
   it 'includes the ruby recipe from the lita cookbook' do
