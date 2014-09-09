@@ -30,12 +30,7 @@ node["lita"]["packages"].each do |pkg|
   package pkg
 end
 
-directory node["lita"]["install_dir"] do
-  mode "0755"
-  action :create
-end
-
-%w( log_dir run_dir ).each do |dir|
+%w( log_dir run_dir install_dir).each do |dir|
   directory node["lita"][dir] do
     owner node["lita"]["daemon_user"]
     group node["lita"]["daemon_user"]
@@ -67,6 +62,7 @@ execute "bundle-install-lita" do
   action :nothing
   command "bundle install --path vendor/ --binstubs bin"
   cwd node["lita"]["install_dir"]
+  user node["lita"]["daemon_user"]
   notifies :restart, "service[lita]"
 end
 
