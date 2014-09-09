@@ -28,7 +28,7 @@ pid() {
 }
 
 start() {
-  sudo -u $DAEMON_USER bash -c "export HOME=$HOME_DIR; cd $HOME_DIR; $CMD_FILE $CMD_OPTS > /dev/null 2>&1"
+  su - $DAEMON_USER bash -c "export HOME=$HOME_DIR; cd $HOME_DIR; $CMD_FILE $CMD_OPTS"
   echo "* lita is started"
 }
 
