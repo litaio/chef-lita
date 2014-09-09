@@ -6,7 +6,7 @@ Lita.configure do |config|
   config.robot.admins = ["<%= node['lita']['admin'].join('","') %>"]
   config.robot.adapter = <%= string_or_symbol(node['lita']['adapter']) %>
 <% node['lita']['adapter_config'].each do |k,v| -%>
-  config.adapter.<%= k %> = <%= string_or_symbol(v) %>
+  config.adapter.<%= k %> = <%= v %>
 <% end -%>
   config.redis.host = "<%= node['lita']['redis_host'] %>"
   config.redis.port = <%= node['lita']['redis_port'] %>
