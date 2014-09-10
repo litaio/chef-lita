@@ -28,7 +28,7 @@ pid() {
 }
 
 start() {
-  su - $DAEMON_USER bash -c "export HOME=$HOME_DIR; cd $HOME_DIR; $CMD_FILE $CMD_OPTS"
+  su - $DAEMON_USER bash -c "export HOME=$HOME_DIR; cd $HOME_DIR; $CMD_FILE $CMD_OPTS >><%= node["lita"]["log_dir"] %>/daemon.log 2>&1"
   echo "* lita is started"
 }
 
