@@ -46,19 +46,9 @@ Key | Type | Description | Default
 
 ### Important Note
 
-Many of the configuration elements (particularly in adapter or plugins) require symbols instead of strings. Since:
+It turns out that creating a valid ruby file from Chef attributes is trickier than I originally thought. Attributes can be added to the node object via JSON strings (node attributes or environment/role in JSON form) or Ruby methods (wrapper cookbooks or the ruby version of environments/roles). There is a library file called ```helpers.rb``` which includes the ```typecast``` method which is used in the ```lita_config.rb.erb``` template to build out valid ruby configuration.
 
-* The cookbook is using Chef templates (ERB) to generate more ruby AND
-* ERB calls to_s on variables in the template
-* Even if I try to do var.inspect on the ERB variable, I can't handle those who pass their attributes via JSON (i.e. environment, role, or node)
-
-you'll need to put your items that should be symbols in as strings For example:
-
-```ruby
-default["lita"]["adapter"] = ":shell"
-```
-
-For the adapter and plugin config the template will try to detect strings that begin with ```:``` and not quote them in the ```lita_config.rb```.
+This method is new and I've tested it with contrived data. However, if you find a situation that doesn't work, you can can create a wrapper cookbook and set the ```config_cookbook``` and ```config_template``` attributes to your own template. Then be sure to notify me through GitHub issues and I'll attempt to adjust the method to support whatever case I missed.
 
 ## Usage
 
@@ -70,11 +60,11 @@ Installs and configures the lita chatbot.
 
 ### Adapter
 
-To make this effective you'll need to choose a non-default adapter from the [Lita plugin page](https://www.lita.io/plugins). The ```:shell``` adapter will not startup in daemon mode so the only way to test with it is to spin up a node, change into the ```node["lita"]["install_dir"]``` and run ```lita```
+To make this effective you'll need to choose a non-default adapter from the [Lita plugin page](https://www.lita.io/plugins). The ```:shell``` adapter will not startup in daemon mode so the only way to test with it is to spin up a node, change into the ```node["lita"]["install_dir"]``` and run ```bin/lita```
 
 ### Adapter Configuration
 
-The adapter config is simply key/value pairs. If you need more complicated ruby configuratino (as some adapters do) you'll likely want to create a wrapper cookbook and set the ```config_cookbook``` and ```config_template``` attributes to your own template.
+The adapter config now supports complex ruby data types (i.e. hashes, hash of arrays, etc.)
 
 ### Plugins
 
@@ -90,13 +80,41 @@ default["lita"]["plugins"] = [
 
 ### Plugin Configuration
 
-The plugins can be configured with a hash of hashes that are keyed off the plugin name:
+The plugins can also be configured with complex data types in ruby or json:
 
 ```ruby
 default["lita"]["plugin_config"] = {
-  "jenkins" => {
-    "url" => "http://test.com"
-    "auth" => "user1:sekret"
+  "foo" => {
+    "bar" => {
+      "key1" => "val1"
+    }
+  }
+}
+```
+
+```json
+{
+  "lita": {
+    "plugin_config": {
+      "foo": {
+        "bar": {
+          "key1": "val1"
+        }
+      }
+    }
+  }
+}
+```
+
+It can even take a string that looks like a hash and convert it appropriately:
+
+
+```json
+{
+  "lita": {
+    "plugin_config": {
+      "foo": "{ \"bar\": { \"key1\": \"val1\" } }"
+    }
   }
 }
 ```

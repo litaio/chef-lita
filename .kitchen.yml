@@ -15,6 +15,9 @@ suites:
       - recipe[lita::default]
     attributes:
       lita:
+        admin:
+          - User1
+          - User2
         packages:
           - git
         plugins:
@@ -24,5 +27,37 @@ suites:
         plugin_config:
           google_images:
             safe_search: "off"
+          fake_plugin:
+            array:
+              - key1
+              - key2
+            array_of_hash:
+              - key1: value1
+              - key2: value2
+            hash_of_hash:
+              top1:
+                key1: value1
+                key2: value2
+              top2:
+                key1: value1
+                key2: value2
+            hash_of_array:
+              top1:
+                - key1
+                - key2
+              top2:
+                - key1
+                - key2
+            hash:
+              key1: value1
+              key2: value2
+          fake_plugin2:
+            array_string: "['item1', 'item2', 'item3']"
+            hash_string: "{ 'key1' => 'value1', 'key2' => 'value2' }"
+            fixnum_string: "100"
+            float_string: "0.1"
+            true_string: "true"
+            false_string: "false"
+            symbol_string: ":symbol"
         gems:
           - pagerduty-sdk: ':git => "https://github.com/kryptek/pagerduty-sdk.git"'

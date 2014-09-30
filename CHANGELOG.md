@@ -1,5 +1,9 @@
-lita Cookbook Changelog
-========================
+v0.0.4 (2014-09-29)
+-------------------
+- [#3] - Runs bundler as the daemon user but also does some backflips to try to ensure a little degree of security
+- [#5] - Using su instead of sudo and writes out console output to daemon.log
+- [#6] - Full embracing of the hack to try to and rubyify strings and/or normal ruby attributes into the ruby config
+- Added the exit code in the init script but I don't think it helps alot. I think most failures happen after lita has backgrounded itself.
 
 v0.0.3 (2014-08-12)
 -------------------

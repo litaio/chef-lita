@@ -30,12 +30,7 @@ node["lita"]["packages"].each do |pkg|
   package pkg
 end
 
-directory node["lita"]["install_dir"] do
-  mode "0755"
-  action :create
-end
-
-%w( log_dir run_dir ).each do |dir|
+%w( install_dir log_dir run_dir ).each do |dir|
   directory node["lita"][dir] do
     owner node["lita"]["daemon_user"]
     group node["lita"]["daemon_user"]
@@ -67,6 +62,24 @@ execute "bundle-install-lita" do
   action :nothing
   command "bundle install --path vendor/ --binstubs bin"
   cwd node["lita"]["install_dir"]
+  user node["lita"]["daemon_user"]
+  notifies :run, "execute[chown-cleanup]", :immediately
+  notifies :restart, "service[lita]"
+end
+
+# we have to run bundle as the daemon user but we don't want the daemon user
+# to have write privs to the code and config.
+execute "chown-cleanup" do
+  command <<-EOF.gsub(/  /, '')
+  chown root:root \
+    #{node["lita"]["install_dir"]}; \
+  chown -R root:root \
+    #{node["lita"]["install_dir"]}/bin \
+    #{node["lita"]["install_dir"]}/vendor \
+    #{node["lita"]["install_dir"]}/.bundle \
+    #{node["lita"]["install_dir"]}/Gemfile.lock
+  EOF
+  action :nothing
   notifies :restart, "service[lita]"
 end
 
@@ -74,15 +87,7 @@ template "#{node["lita"]["install_dir"]}/lita_config.rb" do
   cookbook node["lita"]["config_cookbook"]
   source node["lita"]["config_template"]
   notifies :restart, "service[lita]"
-  helpers do
-    def string_or_symbol(attrib)
-      if attrib =~ /^:/
-        attrib
-      else
-        "\"#{attrib}\""
-      end
-    end
-  end
+  helpers (LitaHelpers)
 end
 
 template "/etc/init.d/lita" do

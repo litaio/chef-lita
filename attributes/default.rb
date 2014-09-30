@@ -16,12 +16,12 @@ default["lita"]["config_cookbook"] = "lita"
 default["lita"]["config_template"] = "lita_config.rb.erb"
 
 # The locale code for the language to use.
-default["lita"]["locale"] = ":en"
+default["lita"]["locale"] = :en
 
 # The severity of messages to log. Options are:
 # :debug, :info, :warn, :error, :fatal
 # Messages at the selected level and above will be logged.
-default["lita"]["log_level"] = ":info"
+default["lita"]["log_level"] = :info
 
 # An array of user IDs that are considered administrators. These users
 # the ability to add and remove other users from authorization groups.
@@ -30,7 +30,7 @@ default["lita"]["admin"] = []
 
 # The adapter you want to connect with. Recipe will auto-install any adapter
 # found here: https://www.lita.io/plugins
-default["lita"]["adapter"] = ":shell"
+default["lita"]["adapter"] = :shell
 
 # The adapter version to install (using Gemfile format); nil for latest
 default["lita"]["adapter_version"] = nil
