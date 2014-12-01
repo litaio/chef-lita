@@ -2,8 +2,10 @@ source "https://rubygems.org"
 
 gem "lita"<% if node['lita']['version'] -%>, "<%= node['lita']['version'] %>"<% end -%>
 
-<% if node['lita']['adapter'] != :shell -%>
-gem "lita-<%= stringify(node['lita']['adapter']) %>"<% if node['lita']['adapter_version'] -%>, "<%= node['lita']['adapter_version'] %>"<% end -%>
+<% node['lita']['adapters'].each do |adapter| -%>
+<% if adapter != :shell && adapter != 'shell' -%>
+gem "lita-<%= stringify(adapter) %>"<% if node['lita']['adapter_versions'][adapter] -%>, "<%= node['lita']['adapter_versions'][adapter] %>"<% end -%>
+<% end -%>
 <% end -%>
 
 <% node['lita']['plugins'].each do |plugin| -%>

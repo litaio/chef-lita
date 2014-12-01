@@ -28,14 +28,32 @@ default["lita"]["log_level"] = :info
 # What is considered a user ID will change depending on which adapter you use.
 default["lita"]["admin"] = []
 
-# The adapter you want to connect with. Recipe will auto-install any adapter
-# found here: https://www.lita.io/plugins
-default["lita"]["adapter"] = :shell
+# An array of adapters you want to connect with. Recipe will auto-install any
+# adapter found here: https://www.lita.io/plugins
+default["lita"]["adapters"] = [:shell]
 
-# The adapter version to install (using Gemfile format); nil for latest
-default["lita"]["adapter_version"] = nil
+# Hash of adapter versions to install (using Gemfile format); nil for latest
+# Example:
+#
+# default["lita"]["adapter_versions"] = { :hipchat => 1.6.2 }
+default["lita"]["adapter_versions"] = { :shell => nil }
 
-# Configuration specific to adapter above:
+# Hash of configurations specific to adapters above:
+# Example:
+#
+# default["lita"]["adapter_config"] = {
+#   "hipchat" => {
+#     "jid"        => "HIPCHAT_JID",
+#     "password"   => "HIPCHAT_PASSWORD",
+#     "rooms"      => ["HIPCHAT_ROOM"],
+#     "muc_domain" => "conf.hipchat.com",
+#     "debug"      => false
+#   },
+#   "adapter_2" => {
+#     "ATTR1"     => "VAL1",
+#     "ATTR2"     => "VAL2"
+#   }
+# }
 default["lita"]["adapter_config"] = {}
 
 # Array of plugin to install OR hashes of plugins and Gemfile formatted line
@@ -97,3 +115,10 @@ default["lita"]["daemon_user"] = "nobody"
 #
 default["lita"]["ruby_install_type"]  = "auto"
 default["lita"]["redis_install_type"] = "auto"
+
+# Additional requires to add to lita_config.rb.  Use this if you have private
+# handlers or plugins you want to include in your Lita install.
+# Example:
+#
+# default["lita"]["requires"] = ["./lita-myplugin/lib/lita/handlers/myplugin.rb"]
+default["lita"]["require"] = []

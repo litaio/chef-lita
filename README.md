@@ -24,9 +24,9 @@ Key | Type | Description | Default
 `locale` | String/Symbol  | Language to use | ":en"
 `log_level` | String/Symbol  | Locale | ":info"
 `admin` | Array of Strings  | Adapter specific IDs of Lita admins | empty
-`adapter` | String/Symbol  | Adapter to use for Lita instance | ":shell"
-`adapter_version` | Fixed  | Version of adapter to use | nil (latest)
-`adapter_config` | Hash  | Hash of adapter specific configuration | emtpy
+`adapters` | Array of Strings/Symbols  | Adapters to use for Lita instance | [:shell]
+`adapter_versions` | Hash of Fixed  | Versions of adapter to use | { :shell => nil } (latest)
+`adapter_config` | Hash of Hashes | Hashes of adapter specific configurations | empty
 `plugins` | Array of Strings and/or Hashes  | List of plugins to install and, optionally, Gemfile line options | empty
 `plugin_config` | Hash of Hashes  | Hash of plugin specific configuration | empty
 `gems` | Array of Strings and/or Hashes  | List of gems to install and, optionally, Gemfile line options | empty
@@ -43,6 +43,7 @@ Key | Type | Description | Default
 `daemon_user` | String  | User to run daemon as | nobody
 `ruby_install_type` | String  | How to install ruby depedency | auto
 `redis_install_type` | String  | How to install redis depedency | auto
+`requires` | String | Include other ruby files (e.g. private plugins) | nil
 
 ### Important Note
 
@@ -145,12 +146,14 @@ Here's an example node configuration for leveraging ```lita-hipchat```:
 ```json
 {
   "lita": {
-    "adapter": "hipchat",
+    "adapters": ["hipchat"],
     "adapter_config": {
-      "jid": "99999_0000000@chat.hipchat.com",
-      "password": "sekret1",
-      "rooms": ":all",
-      "muc_domain": "conf.hipchat.com"
+      "hipchat": {
+        "jid": "99999_0000000@chat.hipchat.com",
+        "password": "sekret1",
+        "rooms": ":all",
+        "muc_domain": "conf.hipchat.com"
+      }
     },
     "gems": {
       "pagerduty-sdk", ":git => \"https://github.com/kryptek/pagerduty-sdk.git\""

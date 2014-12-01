@@ -1,12 +1,21 @@
+<% if node['lita']['require'] -%>
+<% node['lita']['require'].each do |r| -%>
+require '<%= r %>'
+<% end -%>
+<% end -%>
 Lita.configure do |config|
   config.robot.name = <%= typecast(node['lita']['name']) %>
   config.robot.mention_name = <%= typecast(node['lita']['mention_name']) %>
   config.robot.locale = <%= typecast(node['lita']['locale']) %>
   config.robot.log_level = <%= typecast(node['lita']['log_level']) %>
   config.robot.admins = <%= typecast(node['lita']['admin']) %>
-  config.robot.adapter = <%= typecast(node['lita']['adapter']) %>
-<% node['lita']['adapter_config'].each do |k,v| -%>
-  config.adapter.<%= k %> = <%= typecast(v) %>
+<% node['lita']['adapters'].each do |adapter| -%>
+  config.robot.adapter = <%= typecast(adapter) %>
+<% end -%>
+<% node['lita']['adapter_config'].each do |adapter,config| -%>
+<% node['lita']['adapter_config'][adapter].each do |k,v| -%>
+  config.adapters.<%= adapter %>.<%= k %> = <%= typecast(v) %>
+<% end -%>
 <% end -%>
   config.redis.host = <%= typecast(node['lita']['redis_host']) %>
   config.redis.port = <%= typecast(node['lita']['redis_port']) %>

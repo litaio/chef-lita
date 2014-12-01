@@ -1,3 +1,8 @@
+v0.0.10 (2014-12-01)
+-------------------
+- [#10] - Breaking change.  Supports new config.adapters for Lita v4+.  Older versions of Lita will likely not work anymore.
+- Changed these attribute names and class types to make them plural.  ["lita"]["adapters"] and ["lita"]["adapter_versions"]
+
 v0.0.4 (2014-09-29)
 -------------------
 - [#3] - Runs bundler as the daemon user but also does some backflips to try to ensure a little degree of security
