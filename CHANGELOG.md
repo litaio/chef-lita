@@ -1,4 +1,4 @@
-v0.0.10 (2014-12-01)
+v0.1.0 (2014-12-02)
 -------------------
 - [#10] - Breaking change.  Supports new config.adapters for Lita v4+.  Older versions of Lita will likely not work anymore.
 - Changed these attribute names and class types to make them plural.  ["lita"]["adapters"] and ["lita"]["adapter_versions"]
