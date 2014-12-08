@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "lita"<% if node['lita']['version'] -%>, "<%= node['lita']['version'] %>"<% end -%>
+gem "lita"<% if node['lita']['version'] -%>, "<%= node['lita']['version_constraint'] -%> <%= node['lita']['version'] %>"<% end -%>
 
 <% node['lita']['adapters'].each do |adapter| -%>
 <% if adapter != :shell && adapter != 'shell' -%>

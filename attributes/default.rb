@@ -1,5 +1,10 @@
 # lita - core configuration
 
+# The Lita gem version to install.  By default it uses pessimistic version
+# constraints, so will install the latest gem in the 4.0.X line.
+default["lita"]["version"] = "4.0.0"
+default["lita"]["version_constraint"] = "~>"
+
 # The name your robot will use.
 default["lita"]["name"] = "Lita Chatbot"
 
@@ -115,10 +120,3 @@ default["lita"]["daemon_user"] = "nobody"
 #
 default["lita"]["ruby_install_type"]  = "auto"
 default["lita"]["redis_install_type"] = "auto"
-
-# Additional requires to add to lita_config.rb.  Use this if you have private
-# handlers or plugins you want to include in your Lita install.
-# Example:
-#
-# default["lita"]["requires"] = ["./lita-myplugin/lib/lita/handlers/myplugin.rb"]
-default["lita"]["require"] = []

@@ -1,8 +1,3 @@
-<% if node['lita']['require'] -%>
-<% node['lita']['require'].each do |r| -%>
-require '<%= r %>'
-<% end -%>
-<% end -%>
 Lita.configure do |config|
   config.robot.name = <%= typecast(node['lita']['name']) %>
   config.robot.mention_name = <%= typecast(node['lita']['mention_name']) %>
@@ -12,9 +7,14 @@ Lita.configure do |config|
 <% node['lita']['adapters'].each do |adapter| -%>
   config.robot.adapter = <%= typecast(adapter) %>
 <% end -%>
+<% if node['lita']['version'].split('.')[0].to_i >= 4
 <% node['lita']['adapter_config'].each do |adapter,config| -%>
 <% node['lita']['adapter_config'][adapter].each do |k,v| -%>
   config.adapters.<%= adapter %>.<%= k %> = <%= typecast(v) %>
+<% end -%>
+<% else -%>
+<% node['lita']['adapter_config'].each do |k,v| -%>
+  config.adapter.<%= k %> = <%= typecast(v) %>
 <% end -%>
 <% end -%>
   config.redis.host = <%= typecast(node['lita']['redis_host']) %>

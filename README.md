@@ -43,7 +43,6 @@ Key | Type | Description | Default
 `daemon_user` | String  | User to run daemon as | nobody
 `ruby_install_type` | String  | How to install ruby depedency | auto
 `redis_install_type` | String  | How to install redis depedency | auto
-`requires` | String | Include other ruby files (e.g. private plugins) | nil
 
 ### Important Note
 
@@ -76,8 +75,16 @@ default["lita"]["plugins"] = [
   "ping",
   { "jenkins" => ">= 0.0.1" }
   { "foo" => ">= 1.2.3, :git => 'git://github.com/foo/foo.git'" }
+  { "bar" => ":path => '/path/to/local/plugin/lita-bar'" }
 ]
 ```
+
+The above example has four different ways to install / manage plugins:
+
+* the latest version of the `lita-ping` plugin from rubygems.org
+* the version greater than `0.0.1` of `lita-jenkins` plugin from rubygems.org
+* the repository for foo-lita from git want having version greater than or equal to `1.2.3` (This could be public or private depending on whether the node/user has access to git.)
+* A local plugin called 'lita-bar' on the filesystem of the lita node found at the path `/path/to/local/plugin/lita-bar`
 
 ### Plugin Configuration
 
