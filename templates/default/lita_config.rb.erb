@@ -12,6 +12,7 @@ Lita.configure do |config|
 <% node['lita']['adapter_config'][adapter].each do |k,v| -%>
   config.adapters.<%= adapter %>.<%= k %> = <%= typecast(v) %>
 <% end -%>
+<% end -%>
 <% else -%>
 <% node['lita']['adapter_config'].each do |k,v| -%>
   config.adapter.<%= k %> = <%= typecast(v) %>
