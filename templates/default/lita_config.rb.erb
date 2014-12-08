@@ -7,7 +7,7 @@ Lita.configure do |config|
 <% node['lita']['adapters'].each do |adapter| -%>
   config.robot.adapter = <%= typecast(adapter) %>
 <% end -%>
-<% if node['lita']['version'].split('.')[0].to_i >= 4
+<% if node['lita']['version'].split('.')[0].to_i >= 4 -%>
 <% node['lita']['adapter_config'].each do |adapter,config| -%>
 <% node['lita']['adapter_config'][adapter].each do |k,v| -%>
   config.adapters.<%= adapter %>.<%= k %> = <%= typecast(v) %>
