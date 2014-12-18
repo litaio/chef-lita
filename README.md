@@ -135,7 +135,7 @@ To install those dependencies yourself, simple set the install type attributes t
 
 ```ruby
 node.default["lita"]["ruby_install_type"] = "none"
-node.default["lita"]["redit_install_type"] = "none"
+node.default["lita"]["redis_install_type"] = "none"
 ```
 
 If these versions don't work for you (or the cookbook doesn't currently support your platform/version), you can manage the installation of ruby and redis yourself through various methods:
