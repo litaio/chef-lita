@@ -1,3 +1,8 @@
+v0.1.1 (2014-12-19)
+-------------------
+- [#13] - typo in README.md
+- [#14] - make test kitchen work with serverspec ver > 2
+
 v0.1.0 (2014-12-02)
 -------------------
 - [#10] - Breaking change.  Supports new config.adapters for Lita v4+.  Older versions of Lita will likely not work anymore.
