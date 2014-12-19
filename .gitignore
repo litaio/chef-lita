@@ -4,3 +4,5 @@
 README.html
 Gemfile.lock
 Berksfile.lock
+.ruby-version
+.ruby-gemset
