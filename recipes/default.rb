@@ -41,6 +41,7 @@ end
 
 template "#{node["lita"]["install_dir"]}/Gemfile" do
   notifies :delete, "file[Gemfile.lock]", :immediately
+  notifies :run, "execute[chown-openup]", :immediately
   notifies :run, "execute[bundle-install-lita]", :immediately
   helpers do
     def stringify(attrib)
@@ -58,6 +59,23 @@ file "Gemfile.lock" do
   path "#{node["lita"]["install_dir"]}/Gemfile.lock"
 end
 
+# this is bad and I feel bad; open up the permissions during the bundle update
+execute "chown-openup" do
+  command <<-EOF.gsub(/  {2}/, '')
+  chown #{node["lita"]["daemon_user"]} #{node["lita"]["install_dir"]};
+  for dir in #{node["lita"]["install_dir"]}/bin \
+             #{node["lita"]["install_dir"]}/vendor \
+             #{node["lita"]["install_dir"]}/.bundle; do
+    if [ -d $dir ]; then
+      chown -R #{node["lita"]["daemon_user"]} $dir
+    else
+      true
+    fi
+  done
+  EOF
+  action :nothing
+end
+
 execute "bundle-install-lita" do
   action :nothing
   command "bundle install --path vendor/ --binstubs bin"
@@ -70,7 +88,7 @@ end
 # we have to run bundle as the daemon user but we don't want the daemon user
 # to have write privs to the code and config.
 execute "chown-cleanup" do
-  command <<-EOF.gsub(/  /, '')
+  command <<-EOF.gsub(/  {2}/, '')
   chown root:root \
     #{node["lita"]["install_dir"]}; \
   chown -R root:root \

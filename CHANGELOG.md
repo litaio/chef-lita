@@ -1,3 +1,12 @@
+v0.1.3 (2015-01-18)
+-------------------
+- Gemfile changes cause a failure due to file ownership.
+
+v0.1.2 (2015-01-18)
+-------------------
+- [#16] - no more VERSION file
+- [#12] and [#15] - Lita v4 deprecates struct style access of config.redis
+
 v0.1.1 (2014-12-19)
 -------------------
 - [#13] - typo in README.md
