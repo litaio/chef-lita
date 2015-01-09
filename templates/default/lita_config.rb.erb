@@ -18,8 +18,13 @@ Lita.configure do |config|
   config.adapter.<%= k %> = <%= typecast(v) %>
 <% end -%>
 <% end -%>
+<% if node['lita']['version'].split('.')[0].to_i >= 4 -%>
   config.redis[:host] = <%= typecast(node['lita']['redis_host']) %>
   config.redis[:port] = <%= typecast(node['lita']['redis_port']) %>
+<% else -%>
+  config.redis.host = <%= typecast(node['lita']['redis_host']) %>
+  config.redis.port = <%= typecast(node['lita']['redis_port']) %>
+<% end -%>
   config.http.host = <%= typecast(node['lita']['http_host']) %>
   config.http.port = <%= typecast(node['lita']['http_port']) %>
   config.http.min_threads = <%= typecast(node['lita']['http_min_threads']) %>
