@@ -129,7 +129,7 @@ It can even take a string that looks like a hash and convert it appropriately:
 
 ### Ruby and Redis
 
-Lita [requires recent versions](http://docs.lita.io/getting-started/installation/) of Ruby and Redis. By default, the ```lita``` cookbook will automatically try to find appropriate ruyb and redis versions for your platform and version.
+Lita [requires recent versions](http://docs.lita.io/getting-started/installation/) of Ruby and Redis. By default, the ```lita``` cookbook will automatically try to find appropriate ruby and redis versions for your platform and version.
 
 To install those dependencies yourself, simple set the install type attributes to ```none``` as such:
 
