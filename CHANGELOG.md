@@ -1,3 +1,7 @@
+v0.1.5 (2015-02-11)
+-------------------
+- Updated README with missing attributes
+
 v0.1.4 (2015-02-11)
 -------------------
 - [#18] - Allow overriding of Gemfile and init templates

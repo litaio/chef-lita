@@ -21,6 +21,8 @@ Key | Type | Description | Default
 `version` | String  | Gemfile-style version dependency of lita to install | nil (latest)
 `config_coookbook` | String  | Name of cookbook where config template stored | lita (current)
 `config_template` | String  | Name of config template file | lita_config.rb.erb
+`gemfile_template` | String  | Name of Gemfile template file (uses same cookbook as `config_cookbook` | Gemfile.erb
+`init_template` | String  | Name of SysV init file (uses same cookbook as `config_cookbook` | lita.erb
 `locale` | String/Symbol  | Language to use | ":en"
 `log_level` | String/Symbol  | Locale | ":info"
 `admin` | Array of Strings  | Adapter specific IDs of Lita admins | empty
@@ -55,6 +57,20 @@ This method is new and I've tested it with contrived data. However, if you find 
 ### lita::default
 
 Installs and configures the lita chatbot.
+
+If used in a wrapper cookbook and a need for fine grained control over the configuration and init files, see the attributes `config_cookbook`, `config_template`, `gemfile_template`, and `init_template`. The `config_cookbook` parameter sets the cookbook to find the other template files.
+
+Example:
+
+```
+# mycompany-lita/recipes/default.rb
+
+node.default["lita"]["config_cookbook"]  = "mycompany-lita"
+node.default["lita"]["config_template"]  = "mycustom_lita_config.rb.erb"
+node.default["lita"]["gemfile_template"] = "mycustom_Gemfile.erb"
+node.default["lita"]["init_template"]    = "mycustom_lita.erb"
+include_recipe "lita::default"
+```
 
 ## Configuration
 
