@@ -105,7 +105,7 @@ template "#{node["lita"]["install_dir"]}/lita_config.rb" do
   cookbook node["lita"]["config_cookbook"]
   source node["lita"]["config_template"]
   notifies :restart, "service[lita]"
-  helpers (LitaHelpers)
+  helpers(LitaHelpers)
 end
 
 template "/etc/init.d/lita" do

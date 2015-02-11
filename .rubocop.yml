@@ -1,7 +1,7 @@
 AllCops:
   Exclude:
     - metadata.rb
-    - vendor/**
+    - vendor/**/*
 
 AlignParameters:
   Enabled: false
