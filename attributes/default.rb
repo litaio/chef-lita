@@ -19,6 +19,8 @@ default["lita"]["mention_name"] = node["lita"]["name"]
 # override with custom template for more complex configurations)
 default["lita"]["config_cookbook"] = "lita"
 default["lita"]["config_template"] = "lita_config.rb.erb"
+default["lita"]["gemfile_template"] = "Gemfile.erb"
+default["lita"]["init_template"] = "lita.erb"
 
 # The locale code for the language to use.
 default["lita"]["locale"] = :en

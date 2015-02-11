@@ -40,6 +40,8 @@ end
 end
 
 template "#{node["lita"]["install_dir"]}/Gemfile" do
+  cookbook node["lita"]["config_cookbook"]
+  source   node["lita"]["gemfile_template"]
   notifies :delete, "file[Gemfile.lock]", :immediately
   notifies :run, "execute[chown-openup]", :immediately
   notifies :run, "execute[bundle-install-lita]", :immediately
@@ -109,6 +111,8 @@ template "#{node["lita"]["install_dir"]}/lita_config.rb" do
 end
 
 template "/etc/init.d/lita" do
+  cookbook node["lita"]["config_cookbook"]
+  source node["lita"]["init_template"]
   mode "0755"
   notifies :restart, "service[lita]"
 end
