@@ -1,3 +1,8 @@
+v0.1.4 (2015-02-11)
+-------------------
+- [#18] - Allow overriding of Gemfile and init templates
+- [#19] - Add Rake tasks for style checks
+
 v0.1.3 (2015-01-18)
 -------------------
 - Gemfile changes cause a failure due to file ownership.
