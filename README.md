@@ -2,6 +2,8 @@
 
 Installs and configures the [lita](https://www.lita.io/) chatbot.
 
+*NOTE: Beginning with v1.0.0, the Lita service is controlled using runit instead of the SysV init style script. To use v1.0.0 and maintain the use of the SysV init style script, see the `init_style` attribute below*
+
 ## Supported Platforms
 
 * Ubuntu
@@ -22,7 +24,9 @@ Key | Type | Description | Default
 `config_coookbook` | String  | Name of cookbook where config template stored | lita (current)
 `config_template` | String  | Name of config template file | lita_config.rb.erb
 `gemfile_template` | String  | Name of Gemfile template file (uses same cookbook as `config_cookbook` | Gemfile.erb
-`init_template` | String  | Name of SysV init file (uses same cookbook as `config_cookbook` | lita.erb
+`init_style` | String | Type of init to use. Supported: init, runit | runit
+`init_template` | String  | Name of SysV init file (uses same cookbook as `config_cookbook`) | lita.erb
+`runit['finish']` | Boolean | Enable the finish script for the runit service | false
 `locale` | String/Symbol  | Language to use | ":en"
 `log_level` | String/Symbol  | Locale | ":info"
 `admin` | Array of Strings  | Adapter specific IDs of Lita admins | empty
