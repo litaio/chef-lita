@@ -1,9 +1,9 @@
 #
 # Author:: Harlan Barnes (<hbarnes@pobox.com>)
 # Cookbook Name:: lita
-# Recipe:: default
+# Recipe:: init_service
 #
-# Installs and configures lita
+# Installs and configures runit for lita
 #
 # Copyright 2014, Harlan Barnes
 #
@@ -18,12 +18,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+return unless node['lita']['init_style'] == 'init'
 
-include_recipe "apt::default"
-include_recipe "build-essential::default"
-include_recipe "lita::ruby"
-include_recipe "lita::redis"
-include_recipe "lita::install"
-include_recipe "lita::runit_service"
-include_recipe "lita::init_service"
+template "/etc/init.d/lita" do
+  cookbook node["lita"]["config_cookbook"]
+  source node["lita"]["init_template"]
+  mode "0755"
+  notifies :restart, "service[lita]"
+end
+service "lita" do
+  supports :status => true, :restart => true
+  action [:enable, :start]
+end

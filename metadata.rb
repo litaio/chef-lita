@@ -8,6 +8,7 @@ version          '0.1.5'
 
 supports 'ubuntu'
 
+depends 'runit'
 depends 'apt'
 depends 'build-essential'
 depends 'ruby-ng', '~> 0.1.1'
