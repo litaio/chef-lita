@@ -23,5 +23,7 @@ return unless node['lita']['init_style'] == 'runit'
 include_recipe 'runit'
 
 runit_service 'lita' do
+  cookbook node["lita"]["config_cookbook"]
   finish node['lita']['runit']['finish']
+  env node['lita']['runit']['env']
 end
