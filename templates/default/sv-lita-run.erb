@@ -1,12 +1,8 @@
 #!/bin/sh
 exec 2>&1
 
-DAEMON_USER=<%= node["lita"]["daemon_user"] %>
-HOME_DIR=<%= node["lita"]["install_dir"] %>
-CMD_FILE=<%= node["lita"]["install_dir"] %>/bin/lita
-PID_FILE=<%= node["lita"]["run_dir"] %>/lita.pid
-CMD_OPTS="--pid-file $PID_FILE"
-export HOME=$HOME_DIR
-cd $HOME_DIR
+DAEMON_USER=<%= node['lita']['daemon_user'] %>
+CMD_FILE=<%= node['lita']['install_dir'] %>/bin/lita
+cd <%= node['lita']['install_dir'] %>
 
-exec /usr/bin/env chpst -u $DAEMON_USER $CMD_FILE $CMD_OPTS
+exec /usr/bin/env chpst -e <%= node['runit']['sv_dir'] %>/lita/env/ -u $DAEMON_USER $CMD_FILE

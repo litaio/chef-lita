@@ -1,3 +1,7 @@
+v1.0.1 (2015-04-14)
+-------------------
+- [#21] - @ptqa added improvements to runit init system configuration
+
 v1.0.0 (2015-03-26)
 -------------------
 - [#20] and [#8] - @ptqa added support for multiple init systems; added runit; runit is now default. NOTE: given this is a breaking change, I decided to go 1.0.0.

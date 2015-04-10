@@ -27,6 +27,7 @@ Key | Type | Description | Default
 `init_style` | String | Type of init to use. Supported: init, runit | runit
 `init_template` | String  | Name of SysV init file (uses same cookbook as `config_cookbook`) | lita.erb
 `runit['finish']` | Boolean | Enable the finish script for the runit service | false
+`runit['env']` | Hash | Environment variables to pass to runit service | see attributes/default.rb
 `locale` | String/Symbol  | Language to use | ":en"
 `log_level` | String/Symbol  | Locale | ":info"
 `admin` | Array of Strings  | Adapter specific IDs of Lita admins | empty
