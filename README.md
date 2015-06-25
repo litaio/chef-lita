@@ -48,6 +48,7 @@ Key | Type | Description | Default
 `log_dir` | String  | Lita log directory | /opt/lita/logs
 `run_dir` | String  | Lita var/run directory | /opt/lita/run
 `daemon_user` | String  | User to run daemon as | nobody
+`daemon_group` | String  | Group to run daemon as | nogroup
 `ruby_install_type` | String  | How to install ruby depedency | auto
 `redis_install_type` | String  | How to install redis depedency | auto
 
