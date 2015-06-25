@@ -18,15 +18,25 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-return unless node['lita']['init_style'] == 'init'
 
-template "/etc/init.d/lita" do
-  cookbook node["lita"]["config_cookbook"]
-  source node["lita"]["init_template"]
-  mode "0755"
-  notifies :restart, "service[lita]"
-end
-service "lita" do
-  supports :status => true, :restart => true
-  action [:enable, :start]
+case node['lita']['init_style']
+when 'init'
+  template "/etc/init.d/lita" do
+    cookbook node["lita"]["config_cookbook"]
+    source node["lita"]["init_template"]
+    mode "0755"
+    notifies :restart, "service[lita]"
+  end
+  service "lita" do
+    supports :status => true, :restart => true
+    action [:enable, :start]
+  end
+else
+  include_recipe 'runit'
+
+  runit_service 'lita' do
+    cookbook node["lita"]["config_cookbook"]
+    finish node['lita']['runit']['finish']
+    env node['lita']['runit']['env']
+  end
 end
