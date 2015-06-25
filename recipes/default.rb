@@ -20,10 +20,9 @@
 # limitations under the License.
 #
 
-include_recipe "apt::default"
+include_recipe "apt::default" if node["platform_family"] == "debian"
 include_recipe "build-essential::default"
 include_recipe "lita::ruby"
 include_recipe "lita::redis"
 include_recipe "lita::install"
-include_recipe "lita::runit_service"
 include_recipe "lita::init_service"

@@ -114,6 +114,7 @@ default["lita"]["run_dir"]     = "/opt/lita/run"
 
 # daemon user - must already exist
 default["lita"]["daemon_user"] = "nobody"
+default["lita"]["daemon_group"] = "nogroup"
 
 # dependency install type:
 #

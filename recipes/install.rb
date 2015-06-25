@@ -28,7 +28,7 @@ end
 %w( install_dir log_dir run_dir ).each do |dir|
   directory node["lita"][dir] do
     owner node["lita"]["daemon_user"]
-    group node["lita"]["daemon_user"]
+    group node["lita"]["daemon_group"]
     mode "0755"
     action :create
   end

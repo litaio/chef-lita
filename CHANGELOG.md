@@ -1,3 +1,7 @@
+v1.0.2 (2015-11-04)
+-------------------
+- [#22] - @notnmeyer consolidated init recipes and added daemon group control
+
 v1.0.1 (2015-04-14)
 -------------------
 - [#21] - @ptqa added improvements to runit init system configuration

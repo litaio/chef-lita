@@ -19,7 +19,12 @@ suites:
           - User1
           - User2
         packages:
+          - openssl
+          - libssl-dev
+          - ca-certificates
+          - libcurl4-gnutls-dev
           - git
+        init_style: init
         plugins:
           - google-images
           - pagerduty

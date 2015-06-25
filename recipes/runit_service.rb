@@ -18,12 +18,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-return unless node['lita']['init_style'] == 'runit'
 
-include_recipe 'runit'
-
-runit_service 'lita' do
-  cookbook node["lita"]["config_cookbook"]
-  finish node['lita']['runit']['finish']
-  env node['lita']['runit']['env']
-end
+Chef::Log.warn "This recipe has been deprecated in favor of #{cookbook_name}::init_service."
+include_recipe "#{cookbook_name}::init_service"
