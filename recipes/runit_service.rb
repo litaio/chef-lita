@@ -19,5 +19,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-Chef::Log.warn "This recipe has been deprecated in favor of lita::init_service."
+Chef::Log.warn "This recipe has been deprecated in favor of #{cookbook_name}::init_service."
 include_recipe "#{cookbook_name}::init_service"
