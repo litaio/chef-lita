@@ -37,6 +37,7 @@ Key | Type | Description | Default
 `plugins` | Array of Strings and/or Hashes  | List of plugins to install and, optionally, Gemfile line options | empty
 `plugin_config` | Hash of Hashes  | Hash of plugin specific configuration | empty
 `gems` | Array of Strings and/or Hashes  | List of gems to install and, optionally, Gemfile line options | empty
+`gem_primary_source` | String | Source URL for Gemfile `source` | `https://rubygems.org`
 `packages` | Array of Strings | List of system packages to install | SSL related stuff
 `http_host` | String  | IP address to bind http server | 0.0.0.0
 `http_port` | Numeric  | Port to bind http server | 8080
