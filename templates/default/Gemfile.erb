@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source "<% node['lita']['gem_primary_source'] %>"
 
 gem "lita"<% if node['lita']['version'] -%>, "<%= node['lita']['version_constraint'] -%> <%= node['lita']['version'] %>"<% end -%>
 
