@@ -20,6 +20,7 @@ Key | Type | Description | Default
 :---|:---|:---|:---
 `name` | String  | Name of chatbot | Lita Chatbot
 `mention_name` | String | Name chatbot listens for | Value of `name`
+`alias` | String | Name chatbot listens for that is shorter than `mention_name` | empty
 `version` | String  | Gemfile-style version dependency of lita to install | nil (latest)
 `config_coookbook` | String  | Name of cookbook where config template stored | lita (current)
 `config_template` | String  | Name of config template file | lita_config.rb.erb

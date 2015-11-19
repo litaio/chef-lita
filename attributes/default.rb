@@ -15,6 +15,11 @@ default["lita"]["name"] = "Lita Chatbot"
 # would use a name like "LitaBot".
 default["lita"]["mention_name"] = node["lita"]["name"]
 
+# The alias Lita will look for in messages to determine if the message is being
+# addressed to it. Useful if you want to use something shorter than Lita's name
+# or mention name, such as a slash, to send it a command.
+default["lita"]["alias"] = nil
+
 # The cookbook to find the config template (allows for wrapper cookbooks to
 # override with custom template for more complex configurations)
 default["lita"]["config_cookbook"] = "lita"
