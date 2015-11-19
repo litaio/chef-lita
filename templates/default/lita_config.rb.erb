@@ -1,6 +1,9 @@
 Lita.configure do |config|
   config.robot.name = <%= typecast(node['lita']['name']) %>
   config.robot.mention_name = <%= typecast(node['lita']['mention_name']) %>
+<% unless node['lita']['alias'].nil?  -%>
+  config.robot.alias = <%= typecast(node['lita']['alias']) %>
+<% end -%>
   config.robot.locale = <%= typecast(node['lita']['locale']) %>
   config.robot.log_level = <%= typecast(node['lita']['log_level']) %>
   config.robot.admins = <%= typecast(node['lita']['admin']) %>
