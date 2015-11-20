@@ -15,6 +15,12 @@ suites:
       - recipe[lita::default]
     attributes:
       lita:
+        gem_primary_source: 'https://rubygems.org'
+        name: fakebot
+        version: '4.6'
+        log_level: :info
+        daemon_user: vagrant
+        daemon_group: vagrant
         admin:
           - User1
           - User2

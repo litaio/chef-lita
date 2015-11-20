@@ -70,14 +70,4 @@ describe 'lita::default' do
   it 'executes the recurseive chown of bin and vendor install dir' do
     expect(chef_run).not_to run_execute('chown-bundle')
   end
-
-  it 'installs the lita init.d template' do
-    expect(chef_run).to create_template('/etc/init.d/lita')
-  end
-
-  it 'enabled and starts the lita service' do
-    expect(chef_run).to enable_service('lita')
-    expect(chef_run).to start_service('lita')
-  end
-
 end

@@ -26,6 +26,7 @@ default["lita"]["config_cookbook"] = "lita"
 default["lita"]["config_template"] = "lita_config.rb.erb"
 default["lita"]["gemfile_template"] = "Gemfile.erb"
 default["lita"]["init_template"] = "lita.erb"
+default['lita']['gem_primary_source'] = 'https://rubygems.org'
 
 # The locale code for the language to use.
 default["lita"]["locale"] = :en
