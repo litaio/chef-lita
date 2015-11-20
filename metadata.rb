@@ -4,7 +4,7 @@ maintainer_email 'hbarnes@pobox.com'
 license          'Apache 2.0'
 description      'Installs/configures the Lita chatbot'
 long_description 'Installs/configures the Lita chatbot'
-version          '1.0.2'
+version          '1.0.3'
 
 supports 'ubuntu'
 

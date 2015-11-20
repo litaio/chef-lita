@@ -1,3 +1,8 @@
+v1.0.3 (2015-11-19)
+-------------------
+- [#23] - @desktophero added an attribute to set the gem source
+- [#24] - @shortdudey123 added an attribute for config.robot.alias
+
 v1.0.2 (2015-11-04)
 -------------------
 - [#22] - @notnmeyer consolidated init recipes and added daemon group control
