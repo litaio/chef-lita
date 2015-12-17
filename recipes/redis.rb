@@ -21,8 +21,8 @@
 #
 
 if node["lita"]["redis_install_type"] == "auto"
-  case node["platform"]
-  when "ubuntu"
+  case node["platform_family"]
+  when "debian", "rhel"
     node.default["redis2"]["install_from"] = "source"
     node.default["redis2"]["instances"]["default"]["bindaddress"] = node["lita"]["redis_host"]
     node.default["redis2"]["instances"]["default"]["port"] = node["lita"]["redis_port"]
