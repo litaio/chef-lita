@@ -96,12 +96,24 @@ default["lita"]["gems"] = []
 default["lita"]["plugin_config"] = {}
 
 # helpful for adding native libs needed by adapters / handlers
-default["lita"]["packages"] = %w(
-  openssl
-  libssl-dev
-  ca-certificates
-  libcurl4-gnutls-dev
-)
+case node['platform_family']
+  when 'debian'
+    default["lita"]["packages"] = %w(
+      openssl
+      libssl-dev
+      ca-certificates
+      libcurl4-gnutls-dev
+    )
+  when 'rhel'
+    default["lita"]["packages"] = %w(
+      openssl
+      openssl-devel
+      ca-certificates
+      libcurl-devel
+      libpcap-devel
+    )
+end
+
 
 # Set options for redis connection
 default["lita"]["redis_host"] = "127.0.0.1"
