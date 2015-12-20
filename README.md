@@ -9,11 +9,8 @@ Installs and configures the [lita](https://www.lita.io/) chatbot.
 * Ubuntu
  * 12.04 (precise)
  * 14.04 (trusty)
-* Centos
- * 7 (NOTE: Will not work with `auto` setting of `redis_install_type`. You must handle Redis outside of this cookbook. Working on fixing this.)
-
 * CentOS
- * 7 (Installing Ruby & Redis Not Tested)
+ * 7 (NOTE: Will not work with `auto` setting of `redis_install_type`. You must handle Redis outside of this cookbook. Working on fixing this.)
 
 It will likely work on other Ubuntu versions, however the automatic methods of installing ruby and redis will have issues.
 
