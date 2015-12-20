@@ -22,6 +22,12 @@
 
 if node["lita"]["ruby_install_type"] == "auto"
   case node["platform"]
+  when "rhel"
+    if node["platform_version"].to_f > 7.0
+      package "ruby"
+    else
+      log "ruby_install_type 'auto' could not find a ruby for this rhel version"
+    end
   when "ubuntu"
     case node["platform_version"]
     when "12.04"
@@ -43,10 +49,8 @@ if node["lita"]["ruby_install_type"] == "auto"
           not_if "update-alternatives --list #{cmd} | grep /usr/bin/#{cmd}2.0"
         end
       end
-
-      gem_package "bundler"
     else
-      log "ruby_install_type 'auto' could not find a ruby for this ubunut version"      
+      log "ruby_install_type 'auto' could not find a ruby for this ubuntu version"
     end
   else
     log "ruby_install_type 'auto' could not find a ruby for this platform"
@@ -54,3 +58,5 @@ if node["lita"]["ruby_install_type"] == "auto"
 else
   log "ruby will not be installed by lita cookbook"
 end
+
+gem_package "bundler"
