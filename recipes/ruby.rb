@@ -59,4 +59,6 @@ else
   log "ruby will not be installed by lita cookbook"
 end
 
+# this should be cached by the root user and vagrant seems to screw this up
+ENV['HOME'] = '/root'
 gem_package "bundler"

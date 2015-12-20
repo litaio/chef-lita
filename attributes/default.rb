@@ -103,6 +103,7 @@ case node['platform_family']
       libssl-dev
       ca-certificates
       libcurl4-gnutls-dev
+      git
     )
   when 'rhel'
     default["lita"]["packages"] = %w(
@@ -111,6 +112,7 @@ case node['platform_family']
       ca-certificates
       libcurl-devel
       libpcap-devel
+      git
     )
 end
 

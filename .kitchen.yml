@@ -8,6 +8,7 @@ provisioner:
 platforms:
   - name: ubuntu-12.04
   - name: ubuntu-14.04
+  - name: centos-7.1
 
 suites:
   - name: default
@@ -24,17 +25,11 @@ suites:
         admin:
           - User1
           - User2
-        packages:
-          - openssl
-          - libssl-dev
-          - ca-certificates
-          - libcurl4-gnutls-dev
-          - git
         init_style: init
         plugins:
           - google-images
           - pagerduty
-          - jira: ':git => "git://github.com/harlanbarnes/lita-jira.git"'
+          - coin: ':git => "git://github.com/jimmycuadra/lita-coin.git"'
         plugin_config:
           google_images:
             safe_search: "off"
@@ -70,5 +65,29 @@ suites:
             true_string: "true"
             false_string: "false"
             symbol_string: ":symbol"
+        gems:
+          - pagerduty-sdk: ':git => "https://github.com/kryptek/pagerduty-sdk.git"'
+  - name: runit
+    run_list:
+      - recipe[lita::default]
+    attributes:
+      lita:
+        name: fakebot
+        version: '4.6'
+        log_level: :info
+        daemon_user: vagrant
+        daemon_group: vagrant
+        install_dir: /home/vagrant
+        log_dir: /home/vagrant/logs
+        run_dir: /home/vagrant/run
+        runit:
+          env:
+            HOME: /tmp
+            PATH: /opt/chef/embedded/bin:/opt/chef/embedded/bin/gem
+            LITA: Just a fake value for testing
+        plugins:
+          - google-images
+          - pagerduty
+          - coin: ':git => "git://github.com/jimmycuadra/lita-coin.git"'
         gems:
           - pagerduty-sdk: ':git => "https://github.com/kryptek/pagerduty-sdk.git"'

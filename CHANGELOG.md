@@ -1,3 +1,10 @@
+v1.0.4 (2015-12-20)
+-------------------
+- [#27] - @MattMencel finalized RHEL/Centos 7 support
+- [#26] - @ngtjah reported a derived attributes issue and fix added
+- [#25] - @ngtjah added initial RHEL/Centos 7 support and fixed the rubygem source typo/bug
+- [#9] - finally got around to backgrounding in init script
+
 v1.0.3 (2015-11-19)
 -------------------
 - [#23] - @desktophero added an attribute to set the gem source
