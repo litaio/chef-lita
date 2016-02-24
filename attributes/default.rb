@@ -97,25 +97,24 @@ default["lita"]["plugin_config"] = {}
 
 # helpful for adding native libs needed by adapters / handlers
 case node['platform_family']
-  when 'debian'
-    default["lita"]["packages"] = %w(
-      openssl
-      libssl-dev
-      ca-certificates
-      libcurl4-gnutls-dev
-      git
-    )
-  when 'rhel'
-    default["lita"]["packages"] = %w(
-      openssl
-      openssl-devel
-      ca-certificates
-      libcurl-devel
-      libpcap-devel
-      git
-    )
+when 'debian'
+  default["lita"]["packages"] = %w(
+    openssl
+    libssl-dev
+    ca-certificates
+    libcurl4-gnutls-dev
+    git
+  )
+when 'rhel'
+  default["lita"]["packages"] = %w(
+    openssl
+    openssl-devel
+    ca-certificates
+    libcurl-devel
+    libpcap-devel
+    git
+  )
 end
-
 
 # Set options for redis connection
 default["lita"]["redis_host"] = "127.0.0.1"
@@ -140,6 +139,10 @@ when 'debian'
 when 'rhel'
   default["lita"]["daemon_group"] = "nobody"
 end
+
+# default service actions
+# set to symbol of :nothing if not needed
+default['lita']['service'] = [:enable, :start]
 
 # dependency install type:
 #

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'lita::default' do
 
   let(:chef_run) do
-    ChefSpec::Runner.new do |node|
+    ChefSpec::SoloRunner.new do |node|
       node.automatic['platform']         = 'ubuntu'
       node.automatic['platform_version'] = '12.04'
       node.automatic['platform_family']  = 'debian'
@@ -11,6 +11,11 @@ describe 'lita::default' do
       node.automatic['memory']['total']  = 2048
       node.set['lita']['packages']   = ['openssl']
     end.converge(described_recipe)
+  end
+
+  let(:group_name) do
+    return 'nogroup' if chef_run.node.automatic['platform_family'] == 'debian'
+    return 'nobody'
   end
 
   it 'includes the default recipe from the apt cookbook' do
@@ -40,14 +45,14 @@ describe 'lita::default' do
   it 'creates the lita log directory' do
     expect(chef_run).to create_directory('/opt/lita/logs').with(
       user:  'nobody',
-      group: 'nobody'
+      group: group_name
     )
   end
 
   it 'creates the lita run directory' do
     expect(chef_run).to create_directory('/opt/lita/run').with(
       user:  'nobody',
-      group: 'nobody'
+      group: group_name
     )
   end
 

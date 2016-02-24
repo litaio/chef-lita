@@ -19,6 +19,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# build service values
+
 case node['lita']['init_style']
 when 'init'
   template "/etc/init.d/lita" do
@@ -29,7 +31,7 @@ when 'init'
   end
   service "lita" do
     supports :status => true, :restart => true
-    action [:enable, :start]
+    action node['lita']['service']
   end
 else
   include_recipe 'runit'
