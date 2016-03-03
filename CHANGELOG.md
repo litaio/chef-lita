@@ -1,3 +1,7 @@
+v1.0.5 (2016-03-03)
+-------------------
+- [#30] - @desktophero added service options as attributes and updated the tests
+
 v1.0.4 (2015-12-20)
 -------------------
 - [#27] - @MattMencel finalized RHEL/Centos 7 support

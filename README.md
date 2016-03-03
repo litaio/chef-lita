@@ -27,6 +27,7 @@ Key | Type | Description | Default
 `config_coookbook` | String  | Name of cookbook where config template stored | lita (current)
 `config_template` | String  | Name of config template file | lita_config.rb.erb
 `gemfile_template` | String  | Name of Gemfile template file (uses same cookbook as `config_cookbook` | Gemfile.erb
+`service` | Array of Strings | Service actions to take on service | `[:enable, :start]`
 `init_style` | String | Type of init to use. Supported: init, runit | runit
 `init_template` | String  | Name of SysV init file (uses same cookbook as `config_cookbook`) | lita.erb
 `runit['finish']` | Boolean | Enable the finish script for the runit service | false
